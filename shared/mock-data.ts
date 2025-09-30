@@ -1,0 +1,131 @@
+import type { Scheme, Application, DashboardSummary, ApplicationEvent } from './types';
+export const MOCK_SCHEMES: Scheme[] = [
+  {
+    id: 'scheme-1',
+    title: 'Kisan Credit Card (KCC)',
+    description: 'Short-term formal credit to farmers for cultivation, post-harvest expenses, and consumption requirements.',
+    type: 'Loan',
+    interestRate: '7% (3% interest subvention)',
+    maxAmount: '₹3,00,000',
+    eligibility: 'All farmers - individuals/joint borrowers who are owner cultivators.',
+    icon: 'Banknote',
+  },
+  {
+    id: 'scheme-2',
+    title: 'PM-KISAN Scheme',
+    description: 'Income support of ₹6,000 per year in three equal installments to all landholding farmer families.',
+    type: 'Subsidy',
+    maxAmount: '₹6,000 / year',
+    eligibility: 'All landholding farmer families.',
+    icon: 'Leaf',
+  },
+  {
+    id: 'scheme-3',
+    title: 'Agricultural Mechanization Subsidy',
+    description: 'Subsidy on the purchase of various types of agricultural equipment to promote farm mechanization.',
+    type: 'Subsidy',
+    maxAmount: '50-80% of cost',
+    eligibility: 'Varies by state and equipment type.',
+    icon: 'Tractor',
+  },
+  {
+    id: 'scheme-4',
+    title: 'Agri Infrastructure Fund',
+    description: 'Financing facility for post-harvest management infrastructure and community farming assets.',
+    type: 'Loan',
+    interestRate: 'As per bank norms (3% interest subvention)',
+    maxAmount: '₹2 Crore',
+    eligibility: 'PACS, FPOs, SHGs, Startups.',
+    icon: 'Factory',
+  },
+  {
+    id: 'scheme-5',
+    title: 'Pradhan Mantri Fasal Bima Yojana (PMFBY)',
+    description: 'Insurance coverage and financial support to farmers in the event of failure of any of the notified crops.',
+    type: 'Subsidy',
+    maxAmount: 'Varies based on crop loss',
+    eligibility: 'All farmers including sharecroppers and tenant farmers.',
+    icon: 'Leaf',
+  },
+  {
+    id: 'scheme-6',
+    title: 'Solar Pump Subsidy',
+    description: 'Financial assistance for installing standalone solar pumps for irrigation purposes.',
+    type: 'Subsidy',
+    maxAmount: 'Up to 90% of cost',
+    eligibility: 'Individual farmers, FPOs, and water user associations.',
+    icon: 'Tractor',
+  },
+];
+export const MOCK_APPLICATIONS: Application[] = [
+  {
+    id: 'app-1',
+    schemeName: 'Kisan Credit Card (KCC)',
+    applicationDate: '2024-05-15',
+    amount: 150000,
+    status: 'Approved',
+    type: 'Loan',
+  },
+  {
+    id: 'app-2',
+    schemeName: 'PM-KISAN Scheme',
+    applicationDate: '2024-06-01',
+    amount: 6000,
+    status: 'Approved',
+    type: 'Subsidy',
+  },
+  {
+    id: 'app-3',
+    schemeName: 'Agricultural Mechanization Subsidy',
+    applicationDate: '2024-06-20',
+    amount: 75000,
+    status: 'In Review',
+    type: 'Subsidy',
+  },
+  {
+    id: 'app-4',
+    schemeName: 'Agri Infrastructure Fund',
+    applicationDate: '2024-07-10',
+    amount: 1200000,
+    status: 'In Review',
+    type: 'Loan',
+  },
+  {
+    id: 'app-5',
+    schemeName: 'Solar Pump Subsidy',
+    applicationDate: '2024-04-05',
+    amount: 250000,
+    status: 'Rejected',
+    type: 'Subsidy',
+  },
+];
+export const MOCK_DASHBOARD_SUMMARY: DashboardSummary = {
+  totalLoanAmount: MOCK_APPLICATIONS.filter(a => a.type === 'Loan' && a.status === 'Approved').reduce((sum, app) => sum + app.amount, 0),
+  totalSubsidiesReceived: MOCK_APPLICATIONS.filter(a => a.type === 'Subsidy' && a.status === 'Approved').reduce((sum, app) => sum + app.amount, 0),
+  applicationsInReview: MOCK_APPLICATIONS.filter(a => a.status === 'In Review').length,
+  approvedApplications: MOCK_APPLICATIONS.filter(a => a.status === 'Approved').length,
+};
+export const MOCK_APPLICATION_EVENTS: Record<string, ApplicationEvent[]> = {
+  'app-1': [
+    { date: '2024-05-15', status: 'Submitted', description: 'Application submitted successfully via the online portal.' },
+    { date: '2024-05-17', status: 'In Review', description: 'Documents verified by the nodal officer. Awaiting bank approval.' },
+    { date: '2024-05-25', status: 'Approved', description: 'Application approved. The amount has been disbursed to your account.' },
+  ],
+  'app-2': [
+    { date: '2024-06-01', status: 'Submitted', description: 'Application submitted for the PM-KISAN installment.' },
+    { date: '2024-06-05', status: 'Approved', description: 'Application approved. Installment credited.' },
+  ],
+  'app-3': [
+    { date: '2024-06-20', status: 'Submitted', description: 'Subsidy application for a new tractor submitted with all required quotations.' },
+    { date: '2024-06-22', status: 'In Review', description: 'Field verification is scheduled for next week.' },
+  ],
+  'app-4': [
+    { date: '2024-07-10', status: 'Submitted', description: 'Loan application for warehouse construction submitted under the AIF.' },
+    { date: '2024-07-15', status: 'In Review', description: 'Project proposal is being evaluated by the committee.' },
+  ],
+  'app-5': [
+    { date: '2024-04-05', status: 'Submitted', description: 'Application for solar pump subsidy submitted.' },
+    { date: '2024-04-10', status: 'In Review', description: 'Initial document screening completed.' },
+    { date: '2024-04-18', status: 'Rejected', description: 'Application rejected due to incomplete land ownership documents.' },
+  ],
+};
